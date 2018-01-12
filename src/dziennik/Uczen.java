@@ -1,6 +1,8 @@
 package dziennik;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Uczen {
 
@@ -14,6 +16,12 @@ public class Uczen {
         Oceny = new ArrayList<Integer>();
     }
 
+    public Uczen(String serializationLine) {
+        Oceny = new ArrayList<>();
+        deserialize(serializationLine);
+    }
+
+
     public String getImie() {
         return Imie;
     }
@@ -24,8 +32,8 @@ public class Uczen {
 
     public int getNajnizsza() {
         int najnizsza = Integer.MAX_VALUE;
-        for( int i = 0; i < Oceny.size(); i++ ) {
-            if( Oceny.get(i) < najnizsza ) {
+        for (int i = 0; i < Oceny.size(); i++) {
+            if (Oceny.get(i) < najnizsza) {
                 najnizsza = Oceny.get(i);
             }
         }
@@ -34,8 +42,8 @@ public class Uczen {
 
     public int getNajwyzsza() {
         int najwyzsza = 0;
-        for( int i = 0; i < Oceny.size(); i++ ) {
-            if( Oceny.get(i) > najwyzsza ) {
+        for (int i = 0; i < Oceny.size(); i++) {
+            if (Oceny.get(i) > najwyzsza) {
                 najwyzsza = Oceny.get(i);
             }
         }
@@ -44,11 +52,11 @@ public class Uczen {
 
     public double getSrednia() {
         double sumaOcen = 0;
-        for( int i = 0; i < Oceny.size(); i++ ) {
+        for (int i = 0; i < Oceny.size(); i++) {
             sumaOcen += Oceny.get(i);
         }
-        if( Oceny.size() == 0 ) return 0;
-        return (double)sumaOcen / (double)Oceny.size();
+        if (Oceny.size() == 0) return 0;
+        return (double) sumaOcen / (double) Oceny.size();
     }
 
     public void dodajOcene(Integer ocena) {
@@ -56,9 +64,22 @@ public class Uczen {
     }
 
     public String serialize() {
-        String retval = "";
+        String retval = Imie + "," + Nazwisko;
+        for (int i = 0; i < Oceny.size(); i++) {
+            retval += ","  + Oceny.get(i);
+        }
         return retval;
     }
 
-
+    private void deserialize(String serializationString) {
+        StringTokenizer tokenizer = new StringTokenizer(serializationString, ", ");
+        Imie = tokenizer.nextToken();
+        Nazwisko = tokenizer.nextToken();
+        while (tokenizer.hasMoreTokens()) {
+            Oceny.add(Integer.parseInt(tokenizer.nextToken()));
+        }
+    }
 }
+
+
+
