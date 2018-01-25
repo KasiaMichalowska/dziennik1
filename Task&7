@@ -1,0 +1,10 @@
+    public static Person findOldestPerson(List<User> users) {
+        int maxAge = 0;
+        User oldestUser = null;
+        for (User user : users) {
+            if (user.getPersonDetails().getAge() > maxAge) {
+                maxAge = user.getPersonDetails().getAge();
+                oldestUser = user;
+            }
+        }
+        return oldestUser.getPersonDetails();
